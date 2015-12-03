@@ -1,7 +1,7 @@
-# 1 开发框架  
+# 2 开发框架  
 本章介绍 pando 框架。  
 
-## 1.1 Pando 物联网开发框架介绍  
+## 2.1 Pando 物联网开发框架介绍  
 该章节的更多细节可参考 github上的 [pando-protocol](https://github.com/PandoCloud/pando-protocol) 项目。  
 
 ![frame_pic](image/pando_framework.png)  

@@ -1,9 +1,9 @@
-# 3 pando object    
+# 4 pando object    
 pando object 是用户针对产品定义的应用对象，可以代表一个物理实体，比如开关、电机等，也可以是一个虚拟体，比如定时器。设计object用最自然的方式——面向对象的思维，
 objcet在框架支持基本的信息处理功能，比如get或者set或者其他，根据应用不同支持相应的动作。
 信息的传递类型分为状态、事件和命令。  
 
-## 3.1 pando object 的设计流程  
+## 4.1 pando object 的设计流程  
 pando object 需要在[WebIDE](http://tisan.pandocloud.com/)的工作区进行设计， 用户根据自己的应用添加现成的应用对象组件，也可以自己设计自定义对象组件。
 具体流程如下  ：
 1. 登陆WebIDE：[http://tisan.pandocloud.com/](http://tisan.pandocloud.com/)；
@@ -19,13 +19,13 @@ pando object 需要在[WebIDE](http://tisan.pandocloud.com/)的工作区进行�
 ![objec_no_show](image/pando_object_num.png)  
 平台通过产品ID和对象编号才能够准确地传递的信息，这些最终是需要无误地集成到固件上的。  
 
-## 3.2 pando object 的使用  
+## 4.2 pando object 的使用  
 当在WebIDE上设计好产品后，需要把该产品的key和定义的对象集成到固件上。流程如下：    
 1. 在/app/user/ 目录下的device_config.h下更新产品key。  
 2. 在/app/user/objects/ 目录下增加设计的新object文件，并把WebIDE上的object代码复制到新增的object文件上，每个文件需要一一对应。
 3. 初始化object，实现get、set操作，以及如果其他额外功能， 程序里面标示“TODO：”的是需要开发者去添加代码实现的地方。初始化object会涉及到外设，那就需要相应的外设模块，外设模块在peripheral里面进行管理，具体的使用可以参考现有的模板。外设模块会调用esp8266的资源，esp8266的资源在driver模块里面进行管理。  
   
-## 3.3 pando object 代码说明  
+## 4.3 pando object 代码说明  
 下面以WebIDE上的RGB的对象模板进行代码说明并进行初始化的实现：  
 ```c
 #include "../../pando/pando_object.h"
