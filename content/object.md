@@ -46,7 +46,7 @@ struct led {
 	uint8 blue;
 };
 ```   
-RGB的结构元素定义。  
+上面是RGB的结构元素定义。  
 ***  
 
 ```c
@@ -76,7 +76,8 @@ led_init()
 
 	peri_rgb_light_init(light_param,light_init);
 }
-```
+```  
+
 ***  
 
 
