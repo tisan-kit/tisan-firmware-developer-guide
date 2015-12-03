@@ -35,9 +35,10 @@ pando object 需要在[WebIDE](http://tisan.pandocloud.com/)的工作区进行�
 // add your own includes below
 ```   
 头文件引用，一般需要添加相应的外设头文件。三色灯的外设头文件为：  
-> `#include "../../peripheral/peri_rgb_light.h"`
-***  
+> `#include "../../peripheral/peri_rgb_light.h"`  
 
+***  
+RGB的结构体元素定义：
 
 ```c
 struct led {
@@ -46,9 +47,10 @@ struct led {
 	uint8 blue;
 };
 ```   
-上面是RGB的结构元素定义。  
+  
 ***  
 
+RGB对象初始化函数：
 ```c
 void ICACHE_FLASH_ATTR
 led_init() {
@@ -79,7 +81,7 @@ led_init()
 ```  
 
 ***  
-
+pando object的set和get方法。set方法可以实现硬件的控制，get方法给用户反馈硬件的状态。
 
 ```c
 void ICACHE_FLASH_ATTR
@@ -97,7 +99,8 @@ led_get(struct led* value) {
 
 }  
 ```  
-pando object的set和get方法。set方法可以实现硬件的控制，get方法给用户反馈硬件的状态。实现代码如下：  
+
+实现代码如下：  
 ```c  
 void ICACHE_FLASH_ATTR
 led_set(struct led* value)
@@ -125,7 +128,7 @@ led_get(struct led* value)
 ```  
 
 *** 
-
+应用对象的创建、删除、封包、解包，以及初始化操作，开发者一般可以不用去改：
 
 ```c
 
@@ -195,8 +198,8 @@ led_object_init() {
 }
 
 ```
-应用对象的创建、删除、封包、解包，以及初始化操作，开发者一般可以不用去改。在这里，开发者只要实现初始化、get、set操作就可以了，而这几个功能会涉及到接下来的外设文件，所以需要在外设文件里面实现这些功能。  
 
+在这里，开发者只要实现初始化、get、set操作就可以了，而这几个功能会涉及到接下来的外设文件，所以需要在外设文件里面实现这些功能。  
 
 
 
