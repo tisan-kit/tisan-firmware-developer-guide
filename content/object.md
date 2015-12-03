@@ -26,7 +26,7 @@ pando object 需要在[WebIDE](http://tisan.pandocloud.com/)的工作区进行�
 3. 初始化object，实现get、set操作，以及如果其他额外功能， 程序里面标示“TODO：”的是需要开发者去添加代码实现的地方。初始化object会涉及到外设，那就需要相应的外设模块，外设模块在peripheral里面进行管理，具体的使用可以参考现有的模板。外设模块会调用esp8266的资源，esp8266的资源在driver模块里面进行管理。  
   
 ## 3.3 pando object 代码说明  
-下面以WebIDE上的RGB的对象模板进行代码说明：  
+下面以WebIDE上的RGB的对象模板进行代码说明并进行初始化的实现：  
 ```c
 #include "../../pando/pando_object.h"
 #include "c_types.h"
@@ -50,7 +50,7 @@ struct led {
   
 ***  
 
-RGB对象初始化函数：
+RGB对象的外设初始化函数：
 ```c
 void ICACHE_FLASH_ATTR
 led_init() {
@@ -59,6 +59,13 @@ led_init() {
 
 }
 ```  
+RGB对象的外设初始化函数做了如下事情：  
+
+1. 因为RGB颜色是由PWM驱动的，我们为RGB声明了一个结构体（`struct PWM_APP_PARAM light_param;`)，这个在外设文件里面进行定义，在对象初始化函数里面对该结构体声明变量、初始化；   
+2. 驱动RGB还需要管脚资源，所以我们进行管脚声明（`struct PWM_INIT light_init;`），并初始化管脚编号；  
+3. 最后调用RGB的外设初始化函数（`peri_rgb_light_init(light_param,light_init);`）。  
+
+
 添加三色灯初始化代码。引用到了三色灯外设文件，具体如下：  
 ```c
 void ICACHE_FLASH_ATTR
@@ -99,8 +106,12 @@ led_get(struct led* value) {
 
 }  
 ```  
+set和get的实现：  
+1. 用户发送指令数据给终端，终端收到指令数据，框架会进行数据解包，解析后通过object编号调用相应set函数，并把有效数据赋给set函数，set函数里面再调用相应的外设函数，外设再执行相应的动作。
+这里调用的外设接口函数为 `peri_rgb_light_param_set(light_value);` ，该接口函数在外设文件里面进行实现。  
+2. get函数，一般是传递外设的状态，在这里调用了外设接口函数为 `light_value = peri_rgb_light_param_get();` ， 返回RGB的状态，为了实现get操作，pando框架会对该数据进行封包和上报，最终把RGB的状态返回给用户。  
 
-实现代码如下：  
+具体实现代码如下：  
 ```c  
 void ICACHE_FLASH_ATTR
 led_set(struct led* value)
